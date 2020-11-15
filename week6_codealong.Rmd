@@ -7,16 +7,49 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(palmerpenguins)
+library(ggpubr)
+library(broom)
 ```
 
+### Part 1 Attach packages (done above)
+  
+  
+### Part 2. A rank-based test example (Mann Whitney U)  
 
+Create two sample vectors called gp_1 and gp_2. 
+We use set.seed() here to create a “pseudorandom” sample, so that we all get the same samples – otherwise we’d all get something different! 
+We use sample.int() to create random samples with integers from 1 to x, of size = ?, with replacement:
 
+```{r}
+set.seed(1414)
+gp_1 <- sample.int(20, size = 15, replace = TRUE)
 
+set.seed(1424)
+gp_2 <- sample.int(30, size = 15, replace = TRUE)
+```
 
+We ask: Is there evidence for a significant difference in ranks (medians) between the populations from which gp_1 and gp_2 were drawn?
 
+First, always look at it (here, using the base R hist() function to create an exploratory histogram of each – fine if you’re only doing this for a quick look with a vector, but customization can be more challenging than in ggplot):
 
+```{r}
+hist(gp_1)
+hist(gp_2)
+```
+If I want to compare ranks between gp_1 and gp_2, what are some reasons I might choose a rank-based test?
+  
+- Not clearly normally distributed from exploratory histograms
+- Somewhat small sample size (n = 15 for each)
+- I’ve decided that ranks (or, medians) are a more valuable metric to compare for these data.
+  
+  
+Here, we’ll perform Mann-Whitney U to answer “Is there a significant difference in ranks (medians) between gp_1 and gp_2?” using the wilcox.test() function.
 
-
+```{r}
+my_mwu <- wilcox.test(gp_1, gp_2)
+```
 
 
 
